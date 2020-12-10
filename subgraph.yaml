@@ -1,0 +1,26 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: XYO
+    network: mainnet
+    source:
+      address: "0x55296f69f40Ea6d20E478533C15A6B08B654E758"
+      abi: XYO
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+        - Burn
+      abis:
+        - name: XYO
+          file: ./abis/XYO.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Burn(indexed address,uint256)
+          handler: handleBurn
+      file: ./src/mapping.ts
